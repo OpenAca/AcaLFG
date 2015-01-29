@@ -1,6 +1,7 @@
+Django==1.7.3
 boto==2.35.1
 dj-database-url==0.3.0
-Django==1.7.3
+django-bootstrap3==5.1.1
 django-herokuapp==0.9.19
 django-require==1.0.6
 django-require-s3==1.0.0
