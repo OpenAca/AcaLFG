@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "bootstrap3",
     "herokuapp",
     "board",
 )
