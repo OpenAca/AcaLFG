@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.admin",
     "bootstrap3",
+    "bootstrap_pagination",
     "herokuapp",
     "board",
 )
