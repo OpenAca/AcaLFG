@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3>{{ member.name }}</h3>
+  {% if member.location %}
+    <h4>Location:</h4>
+    <p>{{ member.location }}</p>
+  {% endif %}
+  <h4>Voice parts:</h4>
+  <ul>
+    {% for vp in member.voice_parts.all %}
+      <li>{{ vp.name }}</li>
+    {% endfor %}
+  </ul>
+  {% if member.email %}
+    <p>Email: <a href="mailto:{{ member.email }}">{{ member.email }}</a></p>
+  {% endif %}
+  {% if member.description %}
+    <h4>Description:</h4>
+    <p>{{ member.description }}</p>
+  {% endif %}
+{% endblock %}
