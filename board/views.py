@@ -1,4 +1,5 @@
 from board.models import UserLFG
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.views.decorators.http import require_GET
@@ -16,7 +17,8 @@ def view_member(request, member_id):
   except UserLFG.DoesNotExist:
     raise Http404('Member does not exist.')
   return render(request, 'view_member.html',
-                dictionary={'section': 'members', 'member': m})
+                dictionary={'section': 'members', 'member': m,
+                            'maps_key': settings.GOOGLE_MAPS_API_KEY})
 
 @require_GET
 def member_list(request):
