@@ -29,9 +29,9 @@ HEROKU_BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python.git"
 
 # The name and domain of this site.
 
-SITE_NAME = "Example"
+SITE_NAME = "AcaLFG"
 
-SITE_DOMAIN = "acalfg.com"
+SITE_DOMAIN = ".acalfg.com"
 
 PREPEND_WWW = False
 
