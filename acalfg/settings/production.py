@@ -41,7 +41,7 @@ PREPEND_WWW = False
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ALLOWED_HOSTS = (
-    '.' + SITE_DOMAIN,
+    SITE_DOMAIN,
     "{HEROKU_APP_NAME}.herokuapp.com".format(
         HEROKU_APP_NAME = HEROKU_APP_NAME,
     ),
