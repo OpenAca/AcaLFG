@@ -31,7 +31,7 @@ HEROKU_BUILDPACK_URL = "https://github.com/heroku/heroku-buildpack-python.git"
 
 SITE_NAME = "AcaLFG"
 
-SITE_DOMAIN = ".acalfg.com"
+SITE_DOMAIN = "acalfg.com"
 
 PREPEND_WWW = False
 
@@ -41,7 +41,7 @@ PREPEND_WWW = False
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ALLOWED_HOSTS = (
-    SITE_DOMAIN,
+    '.' + SITE_DOMAIN,
     "{HEROKU_APP_NAME}.herokuapp.com".format(
         HEROKU_APP_NAME = HEROKU_APP_NAME,
     ),
