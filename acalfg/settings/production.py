@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "bootstrap3",
     "bootstrap_pagination",
+    "crispy_forms",
     "herokuapp",
     "board",
 )
@@ -234,6 +235,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", get_random_string(50, "abcdefghijklmno
 
 # The Google Maps API key.
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 
 # Logging configuration.

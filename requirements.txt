@@ -3,6 +3,7 @@ dj-database-url==0.3.0
 Django==1.7.4
 django-bootstrap-pagination==1.5.1
 django-bootstrap3==5.1.1
+django-crispy-forms==1.4.0
 django-herokuapp==0.9.19
 django-require==1.0.6
 django-require-s3==1.0.0

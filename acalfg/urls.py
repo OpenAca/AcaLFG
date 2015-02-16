@@ -14,6 +14,5 @@ urlpatterns = patterns("",
   url('^members/(?P<member_id>\d+)/?$', 'board.views.view_member'),
   url('^auditions/?$', 'board.views.audition_list'),
   url('^auditions/(?P<audition_id>\d+)/?$', 'board.views.view_audition'),
-  url('^new_member/?$', 'board.views.new_member'),
-  url('^new_audition/?$', 'board.views.new_audition'),
+  url('^new/?$', 'board.views.new_listing'),
 )

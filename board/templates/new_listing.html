@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="new-listing container">
+    <h4>What is your quest?</h4>
+    <ul class="nav nav-pills nav-justified" role="tablist">
+      <li role="presentation">
+        <a href="#lfg" aria-controls="lfg" role="tab" data-toggle="pill">
+          I want to find a group to join!
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#audition" aria-controls="audition" role="tab" data-toggle="pill">
+          My group is looking for new members!
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane new-form" id="lfg">
+        <form action="/new" method="post" class="form-horizontal">
+          <input type="hidden" name="type" value="lfg" />
+          {% csrf_token %}
+          {% crispy lfg_form %}
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane new-form" id="audition">
+        <form action="/new" method="post">
+          <input type="hidden" name="type" value="audition" />
+          {% csrf_token %}
+          {% crispy audition_form %}
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
