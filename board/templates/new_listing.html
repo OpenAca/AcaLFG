@@ -21,9 +21,7 @@
       <div role="tabpanel" class="tab-pane new-form" id="lfg">
         <form action="/new" method="post" class="form-horizontal">
           <input type="hidden" name="type" value="lfg" />
-          {% csrf_token %}
           {% crispy lfg_form %}
-          <input type="submit" value="Submit" />
         </form>
       </div>
       <div role="tabpanel" class="tab-pane new-form" id="audition">
@@ -31,7 +29,6 @@
           <input type="hidden" name="type" value="audition" />
           {% csrf_token %}
           {% crispy audition_form %}
-          <input type="submit" value="Submit" />
         </form>
       </div>
     </div>
