@@ -10,6 +10,8 @@ urlpatterns = patterns("",
   # There's no favicon here!
   url(r"^favicon.ico$", generic.RedirectView.as_view()),
   url('^$', 'board.views.home'),
-  url('^members/(?P<member_id>\d+)/?$', 'board.views.view_member'),
   url('^members/?$', 'board.views.member_list'),
+  url('^members/(?P<member_id>\d+)/?$', 'board.views.view_member'),
+  url('^auditions/?$', 'board.views.audition_list'),
+  url('^auditions/(?P<audition_id>\d+)/?$', 'board.views.view_audition'),
 )

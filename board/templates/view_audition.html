@@ -4,38 +4,35 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h3 class="member-name">{{ member.name }}</h3>
-        {% if member.email %}
-          <p><a class="email-link" href="mailto:{{ member.email }}">{{ member.email }}</a></p>
-        {% endif %}
+        <h3 class="group-name">{{ audition.group }}</h3>
         <div class="row">
-          {% if member.location %}
+          {% if audition.location %}
             <div class="col-md-6">
               <h4>Location:</h4>
-              <p>{{ member.location }}</p>
+              <p>{{ audition.location }}</p>
             </div>
           {% endif %}
           <div class="col-md-6">
             <h4>Voice parts:</h4>
             <ul>
-              {% for vp in member.voice_parts.all %}
+              {% for vp in audition.voice_parts.all %}
                 <li>{{ vp.name }}</li>
               {% endfor %}
             </ul>
           </div>
         </div>
-        {% if member.description %}
+        {% if audition.description %}
           <div class="row">
             <div class="col-md-12">
               <h4>Description:</h4>
-              <p>{{ member.description }}</p>
+              <p>{{ audition.description }}</p>
             </div>
           </div>
         {% endif %}
       </div>
       <div class="col-md-6">
-        {% if member.location %}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ member.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ member.location }}" />
+        {% if audition.location %}
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ audition.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ audition.location }}" />
         {% endif %}
       </div>
     </div>
