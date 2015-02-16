@@ -5,6 +5,7 @@ from django.http import Http404
 from django.views.decorators.http import require_GET
 from django.shortcuts import render
 from board.models import UserLFG
+from board.forms import LfgForm
 
 @require_GET
 def home(request):
@@ -59,3 +60,11 @@ def audition_list(request):
   return render(request, 'audition_list.html',
                 dictionary={'auditions': auditions,
                             'section': 'auditions'})
+
+def new_member(request):
+  lfg_form = LfgForm()
+  return render(request, 'new_member.html', {'lfg_form': lfg_form})
+
+def new_audition(request):
+  audition_form = AuditionForm()
+  return render(request, 'new_audition.html', {'audition_form': audition_form})
