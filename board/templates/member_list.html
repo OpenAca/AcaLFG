@@ -5,9 +5,9 @@
 {% block extratitle %} - Users LFG{% endblock %}
 
 {% block content %}
-  <h2>Looking for a group</h2>
+  <h3>Looking for a group</h3>
   {% if members|length_is:"0" %}
-    <h3>Nobody's looking...yet!</h3>
+    <h4>Nobody's looking...yet!</h4>
   {% else %}
     <table id="members-table" class="table table-hover table-striped">
       <thead><tr>
@@ -19,7 +19,11 @@
             <td>{{ member.name }}</td>
             <td>{{ member.location }}</td>
             <td>{{ member.voice_parts.all|join:", " }}</td>
-            <td>{{ member.new_group_ok }}</td>
+            <td>
+              {% if member.new_group_ok %}
+                <i class="fa fa-check fa-lg"></i>
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

@@ -13,7 +13,7 @@ body {
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {
-  background-color: #d0d0d0;
+  background-color: #e0e0e0;
 }
 
 .paginate {
@@ -26,4 +26,8 @@ body {
 
 .email-link {
   font-size: 16px;
+}
+
+#members-table .member-row td {
+  vertical-align: middle;
 }
