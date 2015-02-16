@@ -44,8 +44,13 @@
     </nav>
     <div class="container content">
       {% block content %}{% endblock %}
+      <div class="push"></div>
     </div>
-
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">A Craig Martek aca-project</p>
+      </div>
+    </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     {% block extrascripts %}{% endblock %}
