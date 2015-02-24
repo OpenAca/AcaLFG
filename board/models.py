@@ -32,6 +32,7 @@ class UserLFG(models.Model):
 class Audition(models.Model):
   """An audition for a group."""
   posted_by = models.ForeignKey(User, blank=True, null=True)
+  email = models.EmailField(blank=True, null=True)
   group = models.CharField(max_length=255)
   posted_datetime = models.DateTimeField(auto_now_add=True)
   description = models.TextField(blank=True, null=True)

@@ -4,13 +4,21 @@ import uuid
 from board.models import Audition, UserLFG
 from django.conf import settings
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponse
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_GET
 from django.views.generic.edit import DeleteView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from board.models import Audition, UserLFG
 from board.forms import AuditionForm, LfgForm
+
+VERIFICATION_MESSAGE = ('Thanks for verifying your email address! '
+                        'From this page you can edit or delete your listing. '
+                        'Don\'t give this link to anyone else, or else '
+                        'they\'ll be able to edit your post!')
+POST_MESSAGE = 'Successfully posted your listing!'
 
 @require_GET
 def home(request):
@@ -36,11 +44,26 @@ def view_member_by_verification(request, verification_id):
   if not m.is_verified:
     m.is_verified = True
     m.save()
+    messages.success(request, VERIFICATION_MESSAGE)
 
   return render(request, 'view_member.html',
                 dictionary={'section': 'members', 'member': m,
                             'maps_key': settings.GOOGLE_MAPS_API_KEY,
                             'verification_id': verification_id})
+
+
+@require_GET
+def post_member(request, verification_id):
+  try:
+    m = UserLFG.objects.get(verification_id=verification_id)
+  except UserLFG.DoesNotExist:
+    raise Http404('Member does not exist.')
+
+  m.is_public = True
+  m.save()
+  messages.success(request, POST_MESSAGE)
+  return redirect('view-member-by-verification',
+                  verification_id=verification_id)
 
 @require_GET
 def edit_member(request, verification_id):
@@ -91,12 +114,26 @@ def view_audition_by_verification(request, verification_id):
   if not audition.is_verified:
     audition.is_verified = True
     audition.save()
+    messages.success(request, VERIFICATION_MESSAGE)
 
   return render(request, 'view_audition.html',
                 dictionary={'section': 'auditions',
                             'audition': audition,
                             'maps_key': settings.GOOGLE_MAPS_API_KEY,
                             'verification_id': verification_id})
+
+@require_GET
+def post_audition(request, verification_id):
+  try:
+    audition = Audition.objects.get(verification_id=verification_id)
+  except Audition.DoesNotExist:
+    raise Http404('Audition does not exist.')
+
+  audition.is_public = True
+  audition.save()
+  messages.success(request, POST_MESSAGE)
+  return redirect('view-audition-by-verification',
+                  verification_id=verification_id)
 
 @require_GET
 def edit_audition(request, verification_id):
@@ -166,17 +203,30 @@ def _add_userlfg(form):
   user.verification_id = _get_verification_id()
   user.save()
   user.voice_parts.add(*data['voice_parts'])
+  _send_verification_email('members', user.verification_id, user.email)
 
 
 def _add_audition(form):
   data = form.cleaned_data
   audition = Audition()
   audition.group = data['group_name']
+  audition.email = data['contact_email']
   audition.location = data['location']
   audition.description = data['description']
   audition.verification_id = _get_verification_id()
   audition.save()
   audition.voice_parts.add(*data['voice_parts'])
+  _send_verification_email('auditions', audition.verification_id, audition.email)
 
 def _get_verification_id():
   return base64.urlsafe_b64encode(uuid.uuid4().bytes).strip('=')
+
+def _send_verification_email(url_part, verification_id, to_email):
+  email_text = render_to_string(
+      'verification_email.txt',
+      {'verification_link':
+       'http://%s/%s/%s' % (settings.SITE_DOMAIN, url_part, verification_id)})
+  send_mail('AcaLFG verification', email_text, 'acalfg@acalfg.com',
+            [to_email], fail_silently=False,
+            auth_user=settings.EMAIL_HOST_USER,
+            auth_password=settings.EMAIL_HOST_PASSWORD)

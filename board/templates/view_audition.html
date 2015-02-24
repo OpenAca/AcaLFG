@@ -1,12 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% if verification_id %}
-    <div class="alert alert-success">
-      <p>Thanks for verifying your email address!  From this page you can edit or delete your listing.  Don't give this link to anyone else, or else they'll be able to edit your post!</p>
-    </div>
-  {% endif %}
-  <div class="container">
+  <div>
     {% if verification_id %}
       <div class="row admin-buttons">
         <div class="col-md-4">

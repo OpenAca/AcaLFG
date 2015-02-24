@@ -29,7 +29,7 @@ class LfgForm(forms.Form):
       queryset=VoicePart.objects.all(),
       help_text='Select any and all that apply!')
   new_group_ok = forms.BooleanField(
-      label='New group OK?',
+      label='New group OK?', required=False,
       help_text='Would you be ok with helping to start a new group?')
   description = forms.CharField(
       widget=forms.Textarea(attrs={'rows': '4'}))
