@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 import os
 import dj_database_url
+from django.contrib import messages
 from django.utils.crypto import get_random_string
 
 
@@ -238,6 +239,10 @@ GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
 
 # Logging configuration.
 

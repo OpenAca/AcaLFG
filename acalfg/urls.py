@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.views import generic
+from board.views import DeleteAudition, DeleteMember
 
 admin.autodiscover()
 
@@ -14,9 +15,11 @@ urlpatterns = patterns("",
   url('^members/(?P<member_id>\d+)/?$', 'board.views.view_member'),
   url('^members/(?P<verification_id>[a-zA-Z0-9_-]+)/?$', 'board.views.view_member_by_verification'),
   url('^members/(?P<verification_id>[a-zA-Z0-9_-]+)/edit/?$', 'board.views.edit_member'),
+  url('^members/(?P<verification_id>[a-zA-Z0-9_-]+)/delete/?$', DeleteMember.as_view()),
   url('^auditions/?$', 'board.views.audition_list'),
   url('^auditions/(?P<audition_id>\d+)/?$', 'board.views.view_audition'),
   url('^auditions/(?P<verification_id>[a-zA-Z0-9_-]+)/?$', 'board.views.view_audition_by_verification'),
   url('^auditions/(?P<verification_id>[a-zA-Z0-9_-]+)/edit/?$', 'board.views.edit_audition'),
+  url('^auditions/(?P<verification_id>[a-zA-Z0-9_-]+)/delete/?$', DeleteAudition.as_view()),
   url('^new/?$', 'board.views.new_listing'),
 )

@@ -23,6 +23,7 @@ class UserLFG(models.Model):
   longitude = models.FloatField(blank=True, null=True)
   verification_id = models.CharField(max_length=255)
   is_verified = models.BooleanField(default=False)
+  is_public = models.BooleanField(default=False)
 
   def __unicode__(self):
     return self.email
@@ -40,6 +41,7 @@ class Audition(models.Model):
   longitude = models.FloatField(blank=True, null=True)
   verification_id = models.CharField(max_length=255)
   is_verified = models.BooleanField(default=False)
+  is_public = models.BooleanField(default=False)
 
   def __unicode__(self):
     return self.group

@@ -3,9 +3,11 @@ import uuid
 
 from board.models import Audition, UserLFG
 from django.conf import settings
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_GET
+from django.views.generic.edit import DeleteView
 from django.shortcuts import render
 from board.models import Audition, UserLFG
 from board.forms import AuditionForm, LfgForm
@@ -30,13 +32,29 @@ def view_member_by_verification(request, verification_id):
     m = UserLFG.objects.get(verification_id=verification_id)
   except UserLFG.DoesNotExist:
     raise Http404('Member does not exist.')
+
+  if not m.is_verified:
+    m.is_verified = True
+    m.save()
+
   return render(request, 'view_member.html',
                 dictionary={'section': 'members', 'member': m,
-                            'maps_key': settings.GOOGLE_MAPS_API_KEY})
+                            'maps_key': settings.GOOGLE_MAPS_API_KEY,
+                            'verification_id': verification_id})
 
 @require_GET
 def edit_member(request, verification_id):
   pass
+
+class DeleteMember(DeleteView):
+  model = UserLFG
+  success_url = '/members'
+  slug_field = 'verification_id'
+  slug_url_kwarg = 'verification_id'
+
+  def delete(self, request, *args, **kwargs):
+    messages.success(self.request, 'Successfully deleted member listing')
+    return super(DeleteMember, self).delete(request, *args, **kwargs)
 
 @require_GET
 def member_list(request):
@@ -69,14 +87,30 @@ def view_audition_by_verification(request, verification_id):
     audition = Audition.objects.get(verification_id=verification_id)
   except Audition.DoesNotExist:
     raise Http404('Audition does not exist.')
+
+  if not audition.is_verified:
+    audition.is_verified = True
+    audition.save()
+
   return render(request, 'view_audition.html',
                 dictionary={'section': 'auditions',
                             'audition': audition,
-                            'maps_key': settings.GOOGLE_MAPS_API_KEY})
+                            'maps_key': settings.GOOGLE_MAPS_API_KEY,
+                            'verification_id': verification_id})
 
 @require_GET
 def edit_audition(request, verification_id):
   pass
+
+class DeleteAudition(DeleteView):
+  model = Audition
+  success_url = '/auditions'
+  slug_field = 'verification_id'
+  slug_url_kwarg = 'verification_id'
+
+  def delete(self, request, *args, **kwargs):
+    messages.success(self.request, 'Successfully deleted audition listing')
+    return super(DeleteAudition, self).delete(request, *args, **kwargs)
 
 @require_GET
 def audition_list(request):

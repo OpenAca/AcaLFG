@@ -54,6 +54,10 @@ body {
   margin-right: auto;
 }
 
+.admin-buttons {
+  margin-bottom: 10px;
+}
+
 .push {
   min-height: 42px;
 }
