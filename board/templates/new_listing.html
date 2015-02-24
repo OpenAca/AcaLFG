@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="new-listing container">
+  <div class="new-listing">
     <h4>What is your quest?</h4>
     <ul class="nav nav-pills nav-justified" role="tablist">
       <li role="presentation"{% if form_type == 'lfg' %} class="active"{% endif %}>
@@ -19,7 +19,7 @@
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane new-form{% if form_type == 'lfg' %} active{% endif %}" id="lfg">
-        <form action="/new" method="post" class="form-horizontal">
+        <form action="/new" method="post">
           <input type="hidden" name="type" value="lfg" />
           {% crispy lfg_form %}
         </form>

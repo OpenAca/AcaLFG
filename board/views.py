@@ -4,12 +4,13 @@ import uuid
 from board.models import Audition, UserLFG
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_GET
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import render, redirect
 from board.models import Audition, UserLFG
 from board.forms import AuditionForm, LfgForm
@@ -65,9 +66,13 @@ def post_member(request, verification_id):
   return redirect('view-member-by-verification',
                   verification_id=verification_id)
 
-@require_GET
-def edit_member(request, verification_id):
-  pass
+class EditMember(SuccessMessageMixin, UpdateView):
+  form_class = LfgForm
+  model = UserLFG
+  success_url = '/members/%(verification_id)s'
+  slug_field = 'verification_id'
+  slug_url_kwarg = 'verification_id'
+  success_message = 'Successfully edited member listing!'
 
 class DeleteMember(DeleteView):
   model = UserLFG
@@ -135,9 +140,13 @@ def post_audition(request, verification_id):
   return redirect('view-audition-by-verification',
                   verification_id=verification_id)
 
-@require_GET
-def edit_audition(request, verification_id):
-  pass
+class EditAudition(SuccessMessageMixin, UpdateView):
+  form_class = AuditionForm
+  model = Audition
+  success_url = '/auditions/%(verification_id)s'
+  slug_field = 'verification_id'
+  slug_url_kwarg = 'verification_id'
+  success_message = 'Successfully edited audition listing!'
 
 class DeleteAudition(DeleteView):
   model = Audition
@@ -146,7 +155,7 @@ class DeleteAudition(DeleteView):
   slug_url_kwarg = 'verification_id'
 
   def delete(self, request, *args, **kwargs):
-    messages.success(self.request, 'Successfully deleted audition listing')
+    messages.success(self.request, 'Successfully deleted audition listing!')
     return super(DeleteAudition, self).delete(request, *args, **kwargs)
 
 @require_GET
@@ -193,29 +202,15 @@ def new_listing(request):
                   'section': 'new'})
 
 def _add_userlfg(form):
-  data = form.cleaned_data
-  user = UserLFG()
-  user.name = data['name']
-  user.location = data['location']
-  user.description = data['description']
-  user.email = data['email']
-  user.new_group_ok = data['new_group_ok']
+  user = form.save(commit=False)
   user.verification_id = _get_verification_id()
   user.save()
-  user.voice_parts.add(*data['voice_parts'])
   _send_verification_email('members', user.verification_id, user.email)
 
-
 def _add_audition(form):
-  data = form.cleaned_data
-  audition = Audition()
-  audition.group = data['group_name']
-  audition.email = data['contact_email']
-  audition.location = data['location']
-  audition.description = data['description']
+  audition = form.save(commit=False)
   audition.verification_id = _get_verification_id()
   audition.save()
-  audition.voice_parts.add(*data['voice_parts'])
   _send_verification_email('auditions', audition.verification_id, audition.email)
 
 def _get_verification_id():
