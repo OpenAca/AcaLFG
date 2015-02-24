@@ -86,7 +86,8 @@ def new_listing(request):
   return render(request, 'new_listing.html',
       dictionary={'audition_form': audition_form,
                   'lfg_form': lfg_form,
-                  'form_type': form_type})
+                  'form_type': form_type,
+                  'section': 'new'})
 
 def _add_userlfg(form):
   data = form.cleaned_data
