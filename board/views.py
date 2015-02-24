@@ -1,3 +1,6 @@
+import base64
+import uuid
+
 from board.models import Audition, UserLFG
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -97,6 +100,7 @@ def _add_userlfg(form):
   user.description = data['description']
   user.email = data['email']
   user.new_group_ok = data['new_group_ok']
+  user.verification_id = _get_verification_id()
   user.save()
   user.voice_parts.add(*data['voice_parts'])
 
@@ -107,6 +111,9 @@ def _add_audition(form):
   audition.group = data['group_name']
   audition.location = data['location']
   audition.description = data['description']
+  audition.verification_id = _get_verification_id()
   audition.save()
   audition.voice_parts.add(*data['voice_parts'])
 
+def _get_verification_id():
+  return base64.urlsafe_b64encode(uuid.uuid4().bytes).strip('=')
