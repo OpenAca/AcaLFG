@@ -27,21 +27,14 @@ def home(request):
 
 @require_GET
 def view_member(request, member_id):
-  try:
-    m = UserLFG.objects.get(pk=member_id)
-  except UserLFG.DoesNotExist:
-    raise Http404('Member does not exist.')
+  m = _get_member_or_raise(pk=member_id)
   return render(request, 'view_member.html',
                 dictionary={'section': 'members', 'member': m,
                             'maps_key': settings.GOOGLE_MAPS_API_KEY})
 
 @require_GET
 def view_member_by_verification(request, verification_id):
-  try:
-    m = UserLFG.objects.get(verification_id=verification_id)
-  except UserLFG.DoesNotExist:
-    raise Http404('Member does not exist.')
-
+  m = _get_member_or_raise(verification_id=verification_id)
   if not m.is_verified:
     m.is_verified = True
     m.save()
@@ -55,16 +48,20 @@ def view_member_by_verification(request, verification_id):
 
 @require_GET
 def post_member(request, verification_id):
-  try:
-    m = UserLFG.objects.get(verification_id=verification_id)
-  except UserLFG.DoesNotExist:
-    raise Http404('Member does not exist.')
-
+  m = _get_member_or_raise(verification_id=verification_id)
   m.is_public = True
   m.save()
   messages.success(request, POST_MESSAGE)
   return redirect('view-member-by-verification',
                   verification_id=verification_id)
+
+def _get_member_or_raise(verification_id=None, pk=None):
+  try:
+    if verification_id:
+      return UserLFG.objects.get(verification_id=verification_id)
+    return UserLFG.objects.get(pk=pk)
+  except UserLFG.DoesNotExist:
+    raise Http404('Member does not exist.')
 
 class EditMember(SuccessMessageMixin, UpdateView):
   form_class = LfgForm
@@ -100,10 +97,7 @@ def member_list(request):
 
 @require_GET
 def view_audition(request, audition_id):
-  try:
-    audition = Audition.objects.get(pk=audition_id)
-  except Audition.DoesNotExist:
-    raise Http404('Audition does not exist.')
+  audition = _get_audition_or_raise(pk=audition_id)
   return render(request, 'view_audition.html',
                 dictionary={'section': 'auditions',
                             'audition': audition,
@@ -111,11 +105,7 @@ def view_audition(request, audition_id):
 
 @require_GET
 def view_audition_by_verification(request, verification_id):
-  try:
-    audition = Audition.objects.get(verification_id=verification_id)
-  except Audition.DoesNotExist:
-    raise Http404('Audition does not exist.')
-
+  audition = _get_audition_or_raise(verification_id=verification_id)
   if not audition.is_verified:
     audition.is_verified = True
     audition.save()
@@ -129,16 +119,20 @@ def view_audition_by_verification(request, verification_id):
 
 @require_GET
 def post_audition(request, verification_id):
-  try:
-    audition = Audition.objects.get(verification_id=verification_id)
-  except Audition.DoesNotExist:
-    raise Http404('Audition does not exist.')
-
+  audition = _get_audition_or_raise(verification_id=verification_id)
   audition.is_public = True
   audition.save()
   messages.success(request, POST_MESSAGE)
   return redirect('view-audition-by-verification',
                   verification_id=verification_id)
+
+def _get_audition_or_raise(verification_id=None, pk=None):
+  try:
+    if verification_id:
+      return Audition.objects.get(verification_id=verification_id)
+    return Audition.objects.get(pk=pk)
+  except Audition.DoesNotExist:
+    raise Http404('Audition does not exist.')
 
 class EditAudition(SuccessMessageMixin, UpdateView):
   form_class = AuditionForm
