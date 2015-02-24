@@ -25,6 +25,20 @@ def view_member(request, member_id):
                             'maps_key': settings.GOOGLE_MAPS_API_KEY})
 
 @require_GET
+def view_member_by_verification(request, verification_id):
+  try:
+    m = UserLFG.objects.get(verification_id=verification_id)
+  except UserLFG.DoesNotExist:
+    raise Http404('Member does not exist.')
+  return render(request, 'view_member.html',
+                dictionary={'section': 'members', 'member': m,
+                            'maps_key': settings.GOOGLE_MAPS_API_KEY})
+
+@require_GET
+def edit_member(request, verification_id):
+  pass
+
+@require_GET
 def member_list(request):
   paginator = Paginator(UserLFG.objects.all(), 20)
   page = request.GET.get('page')
@@ -48,6 +62,21 @@ def view_audition(request, audition_id):
                 dictionary={'section': 'auditions',
                             'audition': audition,
                             'maps_key': settings.GOOGLE_MAPS_API_KEY})
+
+@require_GET
+def view_audition_by_verification(request, verification_id):
+  try:
+    audition = Audition.objects.get(verification_id=verification_id)
+  except Audition.DoesNotExist:
+    raise Http404('Audition does not exist.')
+  return render(request, 'view_audition.html',
+                dictionary={'section': 'auditions',
+                            'audition': audition,
+                            'maps_key': settings.GOOGLE_MAPS_API_KEY})
+
+@require_GET
+def edit_audition(request, verification_id):
+  pass
 
 @require_GET
 def audition_list(request):
