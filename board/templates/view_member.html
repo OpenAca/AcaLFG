@@ -35,7 +35,7 @@
       </div>
       <div class="col-md-6">
         {% if member.location %}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ member.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ member.location }}" />
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ member.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ member.location }}&zoom=10" />
         {% endif %}
       </div>
     </div>

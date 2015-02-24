@@ -32,7 +32,7 @@
       </div>
       <div class="col-md-6">
         {% if audition.location %}
-          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ audition.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ audition.location }}" />
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ audition.location }}&key={{ maps_key }}&size=480x480&markers=color:red|{{ audition.location }}&zoom=10" />
         {% endif %}
       </div>
     </div>
