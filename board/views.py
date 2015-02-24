@@ -58,7 +58,7 @@ class DeleteMember(DeleteView):
 
 @require_GET
 def member_list(request):
-  paginator = Paginator(UserLFG.objects.all(), 20)
+  paginator = Paginator(UserLFG.objects.filter(is_public=True), 20)
   page = request.GET.get('page')
   try:
     members = paginator.page(page)
@@ -114,7 +114,7 @@ class DeleteAudition(DeleteView):
 
 @require_GET
 def audition_list(request):
-  paginator = Paginator(Audition.objects.all(), 20)
+  paginator = Paginator(Audition.objects.filter(is_public=True), 20)
   page = request.GET.get('page')
   try:
     auditions = paginator.page(page)
