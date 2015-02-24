@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_GET
 from django.shortcuts import render
-from board.models import UserLFG
+from board.models import Audition, UserLFG
 from board.forms import AuditionForm, LfgForm
 
 @require_GET
@@ -69,10 +69,12 @@ def new_listing(request):
     if form_type == 'lfg':
       lfg_form = LfgForm(request.POST)
       if lfg_form.is_valid():
+        _add_userlfg(lfg_form)
         return render(request, 'new_success.html')
     elif form_type == 'audition':
       audition_form = AuditionForm(request.POST)
       if audition_form.is_valid():
+        _add_audition(audition_form)
         return render(request, 'new_success.html')
   else:
     form_type = None
@@ -85,3 +87,25 @@ def new_listing(request):
       dictionary={'audition_form': audition_form,
                   'lfg_form': lfg_form,
                   'form_type': form_type})
+
+def _add_userlfg(form):
+  data = form.cleaned_data
+  user = UserLFG()
+  user.name = data['name']
+  user.location = data['location']
+  user.description = data['description']
+  user.email = data['email']
+  user.new_group_ok = data['new_group_ok']
+  user.save()
+  user.voice_parts.add(*data['voice_parts'])
+
+
+def _add_audition(form):
+  data = form.cleaned_data
+  audition = Audition()
+  audition.group = data['group_name']
+  audition.location = data['location']
+  audition.description = data['description']
+  audition.save()
+  audition.voice_parts.add(*data['voice_parts'])
+

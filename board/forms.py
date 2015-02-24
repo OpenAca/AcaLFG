@@ -12,6 +12,7 @@ class LfgForm(forms.Form):
       'location',
       'email',
       InlineCheckboxes('voice_parts'),
+      'new_group_ok',
       'description')
   helper.add_input(Submit('submit', 'Submit'))
 
@@ -27,6 +28,9 @@ class LfgForm(forms.Form):
       widget=forms.CheckboxSelectMultiple(),
       queryset=VoicePart.objects.all(),
       help_text='Select any and all that apply!')
+  new_group_ok = forms.BooleanField(
+      label='New group OK?',
+      help_text='Would you be ok with helping to start a new group?')
   description = forms.CharField(
       widget=forms.Textarea(attrs={'rows': '4'}))
 
