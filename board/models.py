@@ -21,6 +21,8 @@ class UserLFG(models.Model):
   location = models.TextField(blank=True, null=True)
   latitude = models.FloatField(blank=True, null=True)
   longitude = models.FloatField(blank=True, null=True)
+  verification_id = models.CharField(max_length=255)
+  is_verified = models.BooleanField(default=False)
 
   def __unicode__(self):
     return self.email
@@ -36,6 +38,8 @@ class Audition(models.Model):
   location = models.TextField(blank=True, null=True)
   latitude = models.FloatField(blank=True, null=True)
   longitude = models.FloatField(blank=True, null=True)
+  verification_id = models.CharField(max_length=255)
+  is_verified = models.BooleanField(default=False)
 
   def __unicode__(self):
     return self.group
