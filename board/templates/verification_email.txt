@@ -1,0 +1,5 @@
+Thanks for submitting your AcaLFG listing!
+
+Click here to verify and complete your post: {{ verification_link }}
+
+Keep this link private! It's how you'll edit or delete your post in the future.
