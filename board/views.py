@@ -1,7 +1,7 @@
 from board.models import Audition, UserLFG
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_GET
 from django.shortcuts import render
 from board.models import UserLFG
@@ -62,8 +62,26 @@ def audition_list(request):
                             'section': 'auditions'})
 
 def new_listing(request):
-  audition_form = AuditionForm()
-  lfg_form = LfgForm()
+  audition_form = None
+  lfg_form = None
+  if request.method == 'POST':
+    form_type = request.POST.get('type')
+    if form_type == 'lfg':
+      lfg_form = LfgForm(request.POST)
+      if lfg_form.is_valid():
+        return render(request, 'new_success.html')
+    elif form_type == 'audition':
+      audition_form = AuditionForm(request.POST)
+      if audition_form.is_valid():
+        return render(request, 'new_success.html')
+  else:
+    form_type = None
+
+  if not audition_form:
+    audition_form = AuditionForm()
+  if not lfg_form:
+    lfg_form = LfgForm()
   return render(request, 'new_listing.html',
       dictionary={'audition_form': audition_form,
-                  'lfg_form': lfg_form})
+                  'lfg_form': lfg_form,
+                  'form_type': form_type})

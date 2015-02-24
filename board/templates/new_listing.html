@@ -6,25 +6,25 @@
   <div class="new-listing container">
     <h4>What is your quest?</h4>
     <ul class="nav nav-pills nav-justified" role="tablist">
-      <li role="presentation">
+      <li role="presentation"{% if form_type == 'lfg' %} class="active"{% endif %}>
         <a href="#lfg" aria-controls="lfg" role="tab" data-toggle="pill">
           I want to find a group to join!
         </a>
       </li>
-      <li role="presentation">
+      <li role="presentation"{% if form_type == 'audition' %} class="active"{% endif %}>
         <a href="#audition" aria-controls="audition" role="tab" data-toggle="pill">
           My group is looking for new members!
         </a>
       </li>
     </ul>
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane new-form" id="lfg">
+      <div role="tabpanel" class="tab-pane new-form{% if form_type == 'lfg' %} active{% endif %}" id="lfg">
         <form action="/new" method="post" class="form-horizontal">
           <input type="hidden" name="type" value="lfg" />
           {% crispy lfg_form %}
         </form>
       </div>
-      <div role="tabpanel" class="tab-pane new-form" id="audition">
+      <div role="tabpanel" class="tab-pane new-form{% if form_type == 'audition' %} active{% endif %}" id="audition">
         <form action="/new" method="post">
           <input type="hidden" name="type" value="audition" />
           {% csrf_token %}
