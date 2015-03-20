@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.views import generic
-from board.views import DeleteAudition, DeleteMember, EditAudition
+from board.views import DeleteAudition, DeleteMember, EditAudition, EditMember
 
 admin.autodiscover()
 
