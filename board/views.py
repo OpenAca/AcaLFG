@@ -199,12 +199,14 @@ def _add_userlfg(form):
   user = form.save(commit=False)
   user.verification_id = _get_verification_id()
   user.save()
+  form.save_m2m()
   _send_verification_email('members', user.verification_id, user.email)
 
 def _add_audition(form):
   audition = form.save(commit=False)
   audition.verification_id = _get_verification_id()
   audition.save()
+  form.save_m2m()
   _send_verification_email('auditions', audition.verification_id, audition.email)
 
 def _get_verification_id():
