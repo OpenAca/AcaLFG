@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_GET
@@ -83,7 +84,12 @@ class DeleteMember(DeleteView):
 
 @require_GET
 def member_list(request):
-  paginator = Paginator(UserLFG.objects.filter(is_public=True), 20)
+  query = UserLFG.objects.filter(is_public=True)
+  search = request.GET.get('s')
+  if search:
+    query = query.filter(
+        Q(location__icontains=search) | Q(description__icontains=search))
+  paginator = Paginator(query, 20)
   page = request.GET.get('page')
   try:
     members = paginator.page(page)
@@ -154,7 +160,15 @@ class DeleteAudition(DeleteView):
 
 @require_GET
 def audition_list(request):
-  paginator = Paginator(Audition.objects.filter(is_public=True), 20)
+  query = Audition.objects.filter(is_public=True)
+  search = request.GET.get('s')
+  if search:
+    query = query.filter(
+        Q(group__icontains=search) |
+        Q(location__icontains=search) |
+        Q(description__icontains=search))
+
+  paginator = Paginator(query, 20)
   page = request.GET.get('page')
   try:
     auditions = paginator.page(page)
