@@ -13,6 +13,9 @@ import dj_database_url
 from django.contrib import messages
 from django.utils.crypto import get_random_string
 
+DEBUG = os.environ.get('DEBUG') == '1'
+TEMPLATE_DEBUG = DEBUG
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
