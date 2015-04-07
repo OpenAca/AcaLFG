@@ -86,8 +86,8 @@ def member_list(request):
     query = UserLFG.objects.filter(is_public=True)
     search = request.GET.get('s')
     if search:
-      query = query.filter(
-          Q(location__icontains=search) | Q(description__icontains=search))
+        query = query.filter(
+            Q(location__icontains=search) | Q(description__icontains=search))
     paginator = Paginator(query, 20)
     page = request.GET.get('page')
     try:
