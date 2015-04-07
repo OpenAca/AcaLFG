@@ -6,8 +6,18 @@
 
 {% block content %}
   <h3>Looking for a group</h3>
+  <form method="get" class="form search-form">
+    <div class="row">
+      <div class="col-md-10">
+        <input type="text" class="form-control" name="s" value="{{ request.GET.s }}" placeholder="Search" />
+      </div>
+      <div class="col-md-2">
+        <input type="submit" class="btn btn-default" value="Search"></input>
+      </div>
+    </div>
+  </form>
   {% if members|length_is:"0" %}
-    <h4>Nobody's looking...yet!</h4>
+    <h4>No results found.</h4>
   {% else %}
     <table id="members-table" class="table table-hover table-striped">
       <thead><tr>

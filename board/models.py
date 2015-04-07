@@ -19,7 +19,7 @@ class UserLFG(models.Model):
     posted_datetime = models.DateTimeField(auto_now_add=True)
     new_group_ok = models.BooleanField(
         default=False,
-        help_text='Would you be ok with helping to start a new group?')
+        verbose_name='I\'d be interested in helping to start a new group!')
     voice_parts = models.ManyToManyField(
         VoicePart, blank=True, null=True, verbose_name='Voice part(s)',
         help_text='Select any and all that apply!')
