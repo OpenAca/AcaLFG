@@ -1,6 +1,6 @@
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from crispy_forms.layout import Field, Layout, Submit
 from django import forms
 from board.models import Audition, UserLFG
 
@@ -19,7 +19,7 @@ class LfgForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             'name',
-            'location',
+            Field('location', css_class='autocomplete'),
             'email',
             InlineCheckboxes('voice_parts'),
             'new_group_ok',
@@ -42,7 +42,7 @@ class AuditionForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             'group',
-            'location',
+            Field('location', css_class='autocomplete'),
             'email',
             InlineCheckboxes('voice_parts'),
             'description')

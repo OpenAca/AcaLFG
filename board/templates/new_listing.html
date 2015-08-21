@@ -21,16 +21,25 @@
       <div role="tabpanel" class="tab-pane new-form{% if form_type == 'lfg' %} active{% endif %}" id="lfg">
         <form action="/new" method="post">
           <input type="hidden" name="type" value="lfg" />
+          <input type="hidden" name="latitude" />
+          <input type="hidden" name="longitude" />
           {% crispy lfg_form %}
         </form>
       </div>
       <div role="tabpanel" class="tab-pane new-form{% if form_type == 'audition' %} active{% endif %}" id="audition">
         <form action="/new" method="post">
           <input type="hidden" name="type" value="audition" />
+          <input type="hidden" name="latitude" />
+          <input type="hidden" name="longitude" />
           {% csrf_token %}
           {% crispy audition_form %}
         </form>
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block extrascripts %}
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initialize&sensor=false"></script>
+  <script src="{{ STATIC_URL }}js/geo_autocomplete.js" type="text/javascript"></script>
 {% endblock %}

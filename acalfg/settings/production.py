@@ -107,9 +107,9 @@ EMAIL_HOST_USER = os.environ.get("SENDGRID_USERNAME")
 
 EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_PASSWORD")
 
-EMAIL_PORT = 25
+EMAIL_PORT = 587
 
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 
 SERVER_EMAIL = u"{name} <notifications@{domain}>".format(
     name = SITE_NAME,
